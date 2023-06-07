@@ -46,7 +46,7 @@ export const getNote: RequestHandler = async (req, res, next) => {
 
 interface CreateNoteBody {
   title?: string;
-  text?: string;
+  img?: string;
 }
 
 export const createNote: RequestHandler<
@@ -56,7 +56,7 @@ export const createNote: RequestHandler<
   unknown
 > = async (req, res, next) => {
   const title = req.body.title;
-  const text = req.body.text;
+  const img = req.body.img;
   const authenticatedUserId = req.session.userId;
 
   try {
@@ -66,10 +66,14 @@ export const createNote: RequestHandler<
       throw createHttpError(400, "Note must have a title");
     }
 
+    if (!img) {
+      throw createHttpError(400, "Note must have a doodle");
+    }
+
     const newNote = await NoteModel.create({
       userId: authenticatedUserId,
       title: title,
-      text: text,
+      img: img,
     });
 
     res.status(201).json(newNote);
@@ -84,7 +88,7 @@ interface UpdateNoteParams {
 
 interface UpdateNoteBody {
   title?: string;
-  text?: string;
+  img?: string;
 }
 
 export const updateNote: RequestHandler<
@@ -95,7 +99,7 @@ export const updateNote: RequestHandler<
 > = async (req, res, next) => {
   const noteId = req.params.noteId;
   const newTitle = req.body.title;
-  const newText = req.body.text;
+  const newImg = req.body.img;
   const authenticatedUserId = req.session.userId;
 
   try {
@@ -109,6 +113,10 @@ export const updateNote: RequestHandler<
       throw createHttpError(400, "Note must have a title");
     }
 
+    if (!newImg) {
+      throw createHttpError(400, "Note must have a doodle");
+    }
+
     const note = await NoteModel.findById(noteId).exec();
 
     if (!note) {
@@ -120,7 +128,7 @@ export const updateNote: RequestHandler<
     }
 
     note.title = newTitle;
-    note.text = newText;
+    note.img = newImg;
 
     const updatedNote = await note.save();
 
