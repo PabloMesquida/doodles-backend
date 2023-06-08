@@ -4,7 +4,7 @@ const noteSchema = new Schema(
   {
     userId: { type: Schema.Types.ObjectId, required: true },
     title: { type: String, required: true },
-    img: { type: String, require: true },
+    img: { type: String },
   },
   { timestamps: true }
 );
