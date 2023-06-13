@@ -31,6 +31,7 @@ export const getUserNotes: RequestHandler = async (req, res, next) => {
     console.log("userid", userId);
 
     const notes = await NoteModel.findById(userId).exec();
+    console.log("notes", notes);
     res.status(200).json(notes);
   } catch (error) {
     next(error);
