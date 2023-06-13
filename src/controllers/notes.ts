@@ -28,6 +28,7 @@ export const getUserNotes: RequestHandler = async (req, res, next) => {
 
     // Obtener el ID de usuario
     const userId = user._id;
+    console.log("userid", userId);
 
     const notes = await NoteModel.findById(userId).exec();
     res.status(200).json(notes);
