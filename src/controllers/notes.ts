@@ -14,9 +14,9 @@ export const getNotes: RequestHandler = async (req, res, next) => {
 };
 
 export const getUserNotes: RequestHandler = async (req, res, next) => {
-  const userId = req.params.userId;
+  const userName = req.params.userName;
   try {
-    const notes = await NoteModel.findById(userId).exec();
+    const notes = await NoteModel.findById(userName).exec();
     res.status(200).json(notes);
   } catch (error) {
     next(error);
