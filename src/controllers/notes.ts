@@ -5,6 +5,15 @@ import NoteModel from "../models/note";
 import { assertIsDefined } from "../util/assertIsDefined";
 
 export const getNotes: RequestHandler = async (req, res, next) => {
+  try {
+    const notes = await NoteModel.find().exec();
+    res.status(200).json(notes);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserNotes: RequestHandler = async (req, res, next) => {
   const authenticatedUserId = req.session.userId;
 
   try {
@@ -49,12 +58,11 @@ interface CreateNoteBody {
   img?: string;
 }
 
-export const createNote: RequestHandler<
-  unknown,
-  unknown,
-  CreateNoteBody,
-  unknown
-> = async (req, res, next) => {
+export const createNote: RequestHandler<unknown, unknown, CreateNoteBody, unknown> = async (
+  req,
+  res,
+  next
+) => {
   const title = req.body.title;
   const img = req.body.img;
   const authenticatedUserId = req.session.userId;
