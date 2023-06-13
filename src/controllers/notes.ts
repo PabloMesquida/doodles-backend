@@ -18,19 +18,16 @@ export const getUserNotes: RequestHandler = async (req, res, next) => {
   const userName = req.params.userName;
   console.log("userName-back", userName);
   try {
-    // Buscar el usuario por nombre de usuario
     const user = await UserModel.findOne({ username: userName }).exec();
 
     if (!user) {
-      // Si el usuario no existe, retornar un error o respuesta apropiada
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    // Obtener el ID de usuario
     const userId = user._id;
     console.log("userid", userId);
 
-    const notes = await NoteModel.findById(userId).exec();
+    const notes = await NoteModel.find({ userId: userId }).exec();
     console.log("notes", notes);
     res.status(200).json(notes);
   } catch (error) {
