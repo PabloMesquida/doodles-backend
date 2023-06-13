@@ -35,11 +35,8 @@ export const getUserNotes: RequestHandler = async (req, res, next) => {
 
 export const getNote: RequestHandler = async (req, res, next) => {
   const noteId = req.params.noteId;
-  //const authenticatedUserId = req.session.userId;
 
   try {
-    //  assertIsDefined(authenticatedUserId);
-
     if (!mongoose.isValidObjectId(noteId)) {
       throw createHttpError(400, "Invalid note id");
     }
@@ -49,10 +46,6 @@ export const getNote: RequestHandler = async (req, res, next) => {
     if (!note) {
       throw createHttpError(404, "Note not found");
     }
-
-    // if (!note.userId.equals(authenticatedUserId)) {
-    //   throw createHttpError(401, "You cannot access this note");
-    // }
 
     res.status(200).json(note);
   } catch (error) {
