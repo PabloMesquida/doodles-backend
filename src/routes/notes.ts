@@ -7,6 +7,8 @@ router.get("/", NotesController.getNotes);
 
 router.get("/:noteId", NotesController.getNote);
 
+router.get("/user/:userId", NotesController.getUserNotes);
+
 router.post("/", NotesController.createNote);
 
 router.patch("/:noteId", NotesController.updateNote);
