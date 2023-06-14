@@ -6,8 +6,13 @@ import UserModel from "../models/user";
 import { assertIsDefined } from "../util/assertIsDefined";
 
 export const getNotes: RequestHandler = async (req, res, next) => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.params.limit as string) || 5;
+
   try {
-    const notes = await NoteModel.find().exec();
+    const notes = await NoteModel.find()
+      .skip((page - 1) * limit)
+      .exec();
     res.status(200).json(notes);
   } catch (error) {
     next(error);
