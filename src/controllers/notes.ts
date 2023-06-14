@@ -8,10 +8,11 @@ import { assertIsDefined } from "../util/assertIsDefined";
 export const getNotes: RequestHandler = async (req, res, next) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.params.limit as string) || 5;
-
+  console.log("page:", page, " - limit:", limit);
   try {
     const notes = await NoteModel.find()
       .skip((page - 1) * limit)
+      .limit(limit)
       .exec();
     res.status(200).json(notes);
   } catch (error) {
