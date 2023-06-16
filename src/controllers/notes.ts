@@ -7,7 +7,7 @@ import { assertIsDefined } from "../util/assertIsDefined";
 
 export const getNotes: RequestHandler = async (req, res, next) => {
 	const page = parseInt(req.query.page as string) || 1;
-	const limit = parseInt(req.params.limit as string) || 5;
+	const limit = parseInt(req.query.limit as string) || 5;
 
 	try {
 		const notes = await NoteModel.find()
@@ -23,7 +23,7 @@ export const getNotes: RequestHandler = async (req, res, next) => {
 export const getUserNotes: RequestHandler = async (req, res, next) => {
 	const userName = req.params.userName;
 	const page = parseInt(req.query.page as string) || 1;
-	const limit = parseInt(req.params.limit as string) || 5;
+	const limit = parseInt(req.query.limit as string) || 5;
 	try {
 		const user = await UserModel.findOne({
 			username: { $regex: new RegExp(userName, "i") },
