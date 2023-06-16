@@ -27,17 +27,17 @@ export const getUserNotes: RequestHandler = async (req, res, next) => {
 	try {
 		const user = await UserModel.findOne({
 			username: { $regex: new RegExp(userName, "i") },
-		})
-			.skip((page - 1) * limit)
-			.limit(limit)
-			.exec();
+		}).exec();
 
 		if (!user) {
 			return res.status(404).json({ message: "Usuario no encontrado" });
 		}
 
 		const userId = user._id;
-		const notes = await NoteModel.find({ userId: userId }).exec();
+		const notes = await NoteModel.find({ userId: userId })
+			.skip((page - 1) * limit)
+			.limit(limit)
+			.exec();
 		res.status(200).json(notes);
 	} catch (error) {
 		next(error);
