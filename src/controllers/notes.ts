@@ -11,7 +11,6 @@ export const getNotes: RequestHandler = async (req, res, next) => {
 
   try {
     const notes = await NoteModel.find()
-      .sort({ date: -1 })
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
@@ -36,7 +35,6 @@ export const getUserNotes: RequestHandler = async (req, res, next) => {
 
     const userId = user._id;
     const notes = await NoteModel.find({ userId: userId })
-      .sort({ date: -1 })
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
